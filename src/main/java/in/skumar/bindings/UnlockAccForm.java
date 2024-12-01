@@ -1,5 +1,14 @@
 package in.skumar.bindings;
 
-public class UnlockAccForm {
+import lombok.Data;
 
+@Data
+public class UnlockAccForm {
+	
+	private String email;
+	private String tempPwd;
+	private String newPwd;
+	private String confirmPwd;
+
+	
 }

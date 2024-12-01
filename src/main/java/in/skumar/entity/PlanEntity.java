@@ -19,7 +19,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.ToString;
 
-@Data
+
 @Entity
 @Table(name="Dc_PlanSelection")
 @ToString
@@ -49,7 +49,87 @@ public class PlanEntity {
 	@JoinColumn(name="user_Id")
 	@JsonBackReference
 	private UserEntity useruId;
+
+	public Integer getPlanId() {
+		return planId;
+	}
+
+	public void setPlanId(Integer planId) {
+		this.planId = planId;
+	}
+
+	public String getPlanName() {
+		return planName;
+	}
+
+	public void setPlanName(String planName) {
+		this.planName = planName;
+	}
+
+	public String getPlanCategory() {
+		return planCategory;
+	}
+
+	public void setPlanCategory(String planCategory) {
+		this.planCategory = planCategory;
+	}
+
+	public LocalDate getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
+	}
+
+	public LocalDate getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getPlanActiveStatus() {
+		return planActiveStatus;
+	}
+
+	public void setPlanActiveStatus(String planActiveStatus) {
+		this.planActiveStatus = planActiveStatus;
+	}
+
+	public Integer getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(Integer updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public LocalDate getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(LocalDate createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public LocalDate getUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(LocalDate updatedDate) {
+		this.updatedDate = updatedDate;
+	}
+
+	public UserEntity getUseruId() {
+		return useruId;
+	}
+
+	public void setUseruId(UserEntity useruId) {
+		this.useruId = useruId;
+	}
 	
-	
+    	
 
 }

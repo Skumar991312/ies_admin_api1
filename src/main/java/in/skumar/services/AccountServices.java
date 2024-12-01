@@ -17,7 +17,7 @@ public interface AccountServices {
 	public UserAccForm getUserAccById(Integer accId);
 	
 	//Change Account Data & Check Status
-	public String changeAccStatus(Integer accId, String status);
+	public String changeAccStatus(Integer userId, String status);
 	
 	public String unlockUserAcc(UnlockAccForm unlockAccForm);
 	
