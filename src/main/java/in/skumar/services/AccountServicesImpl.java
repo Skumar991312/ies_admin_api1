@@ -1,9 +1,12 @@
 package in.skumar.services;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Stream;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,11 +45,33 @@ public class AccountServicesImpl implements AccountServices {
 		   userRepo.save(entity);
 		   
 		   //Send Email
-		   String subject="";
-		   String body="";	   
+		   String subject="User Registrations";
+		   String body=readEmailBody("REG_EMAIL_BODY.txt",entity);	   
 		 return emailUtils.senEmail(subject, body, accForm.getEmail());	
 	}
 	
+	private String readEmailBody(String filename, UserEntity user) {
+		
+		StringBuilder sb=new StringBuilder();
+		
+		try(Stream<String> lines=Files.lines(Paths.get(filename))){
+			lines.forEach(line-> {
+				
+				line=line.replace("${FNAME}",user.getFullName());
+				line=line.replace("${TEMP_PWD}",user.getUserPwd());
+				line=line.replace("${EMAIL}",user.getUserEmail());
+				
+				sb.append(line);
+				});
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+     return sb.toString();		
+		
+	}
+
+
 	@Override
 	public List<UserAccForm> fetchUserAccount() {
 		

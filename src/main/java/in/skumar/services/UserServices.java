@@ -2,6 +2,7 @@ package in.skumar.services;
 
 import in.skumar.bindings.DashbordCard;
 import in.skumar.bindings.LoginForm;
+import in.skumar.bindings.UserAccForm;
 
 public interface UserServices {
 	
@@ -12,6 +13,8 @@ public interface UserServices {
   public boolean recoverPWD(String email);
   
   public  DashbordCard fetchDashbordInfo();
+  
+  public UserAccForm getUserByEmail(String email);
   
   
 }

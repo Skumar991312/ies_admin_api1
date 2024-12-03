@@ -13,6 +13,7 @@ public class DashbordCard {
 	
 	private Double benefitAtmGiven;
 	
+	private UserAccForm user;
 
 
 }

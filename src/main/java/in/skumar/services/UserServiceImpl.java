@@ -3,11 +3,13 @@ package in.skumar.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import in.skumar.bindings.DashbordCard;
 import in.skumar.bindings.LoginForm;
+import in.skumar.bindings.UserAccForm;
 import in.skumar.entity.EligEntity;
 import in.skumar.entity.UserEntity;
 import in.skumar.repo.EligRepo;
@@ -41,7 +43,7 @@ public class UserServiceImpl implements UserServices{
 		}
 		if("Y".equals(entity.getActiveSw()) && "UNLOCKED".equals(entity.getAccountStatus())){
 			
-		   return "Success@role"+entity.getUserId(); 
+		   return "Success"; 
 		}
 		else {
 			return "Account Locked/In-Active";
@@ -60,11 +62,22 @@ public class UserServiceImpl implements UserServices{
 			  
 	  }else {
 					  
-		String subject="";
-		String body="";	
+		String subject="Recover Pwd";
+		String body=readEmailBody("FORGET_EMAIL_BODY.txt",userEntity);
+		
 		return emailUtils.senEmail(subject, body,email);
 		
+		
 		  }
+	}
+
+	private String readEmailBody(String string, UserEntity userEntity) {
+		
+		
+		
+		
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -89,6 +102,16 @@ public class UserServiceImpl implements UserServices{
 	card.setDeninedCount(denined);
 	
 	return card;
+	}
+
+	@Override
+	public UserAccForm getUserByEmail(String email) {
+		
+		UserEntity userEntity=userRepo.findByEmail(email);
+		UserAccForm user=new UserAccForm();
+		BeanUtils.copyProperties(userEntity, user);
+		
+		return user;
 	}
 
 }
