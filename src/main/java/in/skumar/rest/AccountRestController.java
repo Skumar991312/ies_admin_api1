@@ -1,5 +1,6 @@
 package in.skumar.rest;
 
+
 import java.lang.System.Logger;
 import java.util.List;
 
@@ -20,51 +21,52 @@ import jakarta.websocket.server.PathParam;
 
 @RestController
 public class AccountRestController {
-
-	private Logger logger = (Logger) LoggerFactory.getLogger(AccountRestController.class);
-
+	
+   private Logger logger=(Logger) LoggerFactory.getLogger(AccountRestController.class);
+	
 	@Autowired
 	private AccountServices accService;
-
+	
 	@PostMapping("/user")
 	public ResponseEntity<String>  createAccount(@RequestBody UserAccForm userAccForm){
-		 logger.
+		 
+		((org.slf4j.Logger) logger).debug("Message");
+		
 		boolean status=accService.createUserAccount(userAccForm);
-
+		
 		if(status) {
 			return new ResponseEntity<>("Account Created",HttpStatus.CREATED);
 		}else {
 			return new ResponseEntity<>("Account Creations Failed",HttpStatus.INTERNAL_SERVER_ERROR);
-
+			
 		}
-
+		
 	}
-
 	@GetMapping("/users")
-	public ResponseEntity<List<UserAccForm>> getUsers() {
-
-		List<UserAccForm> userList = accService.fetchUserAccount();
-
-		return new ResponseEntity<>(userList, HttpStatus.OK);
+	public ResponseEntity<List<UserAccForm>> getUsers(){
+		
+		List<UserAccForm> userList=accService.fetchUserAccount();
+		
+		return new ResponseEntity<>(userList,HttpStatus.OK);
 	}
-
+   
 	@GetMapping("/user{userId}")
-	public ResponseEntity<UserAccForm> getUser(@PathParam("userId") Integer userId) {
+	public ResponseEntity<UserAccForm> getUser(@PathParam("userId") Integer userId){
 
-		UserAccForm user = accService.getUserAccById(userId);
-
-		return new ResponseEntity<>(user, HttpStatus.OK);
-	}
-
-	@PutMapping("/user/{userId}/{status}")
-	public ResponseEntity<List<UserAccForm>> updatedUserAcc(@PathVariable("userId") Integer userId,
-			@PathVariable("status") String status) {
-
-		accService.changeAccStatus(userId, status);
-
-		List<UserAccForm> userList = accService.fetchUserAccount();
-
-		return new ResponseEntity<>(userList, HttpStatus.OK);
-
-	}
+         UserAccForm user=accService.getUserAccById(userId);
+         
+      return new ResponseEntity<>(user,HttpStatus.OK);
 }
+	
+	@PutMapping("/user/{userId}/{status}")
+	public ResponseEntity<List<UserAccForm>> updatedUserAcc(@PathVariable("userId") Integer userId,@PathVariable("status") String status){
+		
+		accService.changeAccStatus(userId, status);
+		
+		List<UserAccForm> userList=accService.fetchUserAccount();
+		
+		return new ResponseEntity<>(userList,HttpStatus.OK); 
+		
+		
+	}
+} 
