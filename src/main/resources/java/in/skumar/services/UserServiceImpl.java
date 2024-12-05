@@ -1,7 +1,10 @@
 package in.skumar.services;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,8 +62,7 @@ public class UserServiceImpl implements UserServices{
 		  if(null==userEntity){
 			  
 			  return false;
-			  
-	  }else {
+	      }else {
 					  
 		String subject="Recover Pwd";
 		String body=readEmailBody("FORGET_EMAIL_BODY.txt",userEntity);
@@ -69,15 +71,6 @@ public class UserServiceImpl implements UserServices{
 		
 		
 		  }
-	}
-
-	private String readEmailBody(String string, UserEntity userEntity) {
-		
-		
-		
-		
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -92,7 +85,7 @@ public class UserServiceImpl implements UserServices{
 	
 	Long denined=eligList.stream().filter(ed->ed.getPlanStatus().equals("DN")).count();
 	
-	    Double benefitAmt=eligList.stream().mapToDouble(ed->ed.getBenefitAmt()).summaryStatistics().getSum();
+	Double benefitAmt=eligList.stream().mapToDouble(ed->ed.getBenefitAmt()).summaryStatistics().getSum();
 	
 	DashbordCard card=new DashbordCard();
 	
@@ -113,7 +106,27 @@ public class UserServiceImpl implements UserServices{
 		
 		return user;
 	}
-
+	
+    private String readEmailBody(String fiename, UserEntity user) {
+    	
+          StringBuilder sb=new StringBuilder();
+		
+		try(Stream<String> lines=Files.lines(Paths.get(fiename))){
+			lines.forEach(line-> {
+				
+				line=line.replace("${FNAME}",user.getFullName());
+				line=line.replace("${PWD}",user.getUserPwd());
+				line=line.replace("${EMAIL}",user.getUserEmail());
+				
+				sb.append(line);
+				});
+		   }
+		   catch(Exception e) {
+			    e.printStackTrace();
+		    }
+         return sb.toString();		
+		
+    }
 }
 
  

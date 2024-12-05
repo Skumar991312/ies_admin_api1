@@ -45,7 +45,7 @@ public class AccountServicesImpl implements AccountServices {
 		   userRepo.save(entity);
 		   
 		   //Send Email
-		   String subject="User Registrations";
+		   String subject="User Registration";
 		   String body=readEmailBody("REG_EMAIL_BODY.txt",entity);	   
 		 return emailUtils.senEmail(subject, body, accForm.getEmail());	
 	}
