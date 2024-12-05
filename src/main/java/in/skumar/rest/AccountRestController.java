@@ -31,8 +31,8 @@ public class AccountRestController {
 	public ResponseEntity<String>  createAccount(@RequestBody UserAccForm userAccForm){
 		 
 		 logger.debug("Account Creation Process Started...");
-		boolean status=accService.createUserAccount(userAccForm);
-		logger.debug("Account Creation Process Completed...");
+		 boolean status=accService.createUserAccount(userAccForm);
+		 logger.debug("Account Creation Process Completed...");
 		if(status) {
 	      logger.info("Account Creations Successfully..");
 		 return new ResponseEntity<>("Account Created",HttpStatus.CREATED);

@@ -6,9 +6,21 @@ spring:
     username: root		
   jpa:
      hibernate:
-       ddl-auto: create
+       ddl-auto: u
      show-sql: true
 
 server:
-   port: 1326
- 
+   port: 4200
+	 
+
+	mail:
+	  host: smtp.gmail.com
+	     port: 587
+	     username: sdeepmail419@gmail.com
+	     password: your-email-password
+	     properties:
+	       mail:
+	         smtp:
+	           auth: true
+	           starttls:
+	             enable: true

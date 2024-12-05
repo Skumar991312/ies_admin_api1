@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import in.skumar.bindings.DashbordCard;
 import in.skumar.bindings.LoginForm;
 import in.skumar.bindings.UserAccForm;
+import in.skumar.constants.AppConstants;
 import in.skumar.entity.EligEntity;
 import in.skumar.entity.UserEntity;
 import in.skumar.repo.EligRepo;
@@ -42,14 +43,14 @@ public class UserServiceImpl implements UserServices{
 		
 		if(entity == null) {
 			
-			return "Invalid Credentials";
+			return AppConstants.INVALID_CREDENTIALS;
 		}
-		if("Y".equals(entity.getActiveSw()) && "UNLOCKED".equals(entity.getAccountStatus())){
+		if(AppConstants.MESSAGE.equals(entity.getActiveSw()) && AppConstants.UNLOCKED.equals(entity.getAccountStatus())){
 			
-		   return "Success"; 
+		   return AppConstants.SUCCESS; 
 		}
 		else {
-			return "Account Locked/In-Active";
+			return AppConstants.ACTIVE_LOCK_UNACTIVE_LOCK;
 		}
 		
 	}
@@ -64,8 +65,8 @@ public class UserServiceImpl implements UserServices{
 			  return false;
 	      }else {
 					  
-		String subject="Recover Pwd";
-		String body=readEmailBody("FORGET_EMAIL_BODY.txt",userEntity);
+		String subject=AppConstants.RECOVER_PWD;
+		String body=readEmailBody(AppConstants.FORGET_EMAIL_BODY,userEntity);
 		
 		return emailUtils.senEmail(subject, body,email);
 		
@@ -80,10 +81,10 @@ public class UserServiceImpl implements UserServices{
 	
 	List<EligEntity> eligList=eligRepo.findAll();
 	
-	Long approvedCount=eligList.stream().filter(ed->ed.getPlanStatus().equals("AP")).count();
+	Long approvedCount=eligList.stream().filter(ed->ed.getPlanStatus().equals(AppConstants.APROVE_PLAIN)).count();
 	
 	
-	Long denined=eligList.stream().filter(ed->ed.getPlanStatus().equals("DN")).count();
+	Long denined=eligList.stream().filter(ed->ed.getPlanStatus().equals(AppConstants.DCLINED_PLAIN)).count();
 	
 	Double benefitAmt=eligList.stream().mapToDouble(ed->ed.getBenefitAmt()).summaryStatistics().getSum();
 	
@@ -114,9 +115,9 @@ public class UserServiceImpl implements UserServices{
 		try(Stream<String> lines=Files.lines(Paths.get(fiename))){
 			lines.forEach(line-> {
 				
-				line=line.replace("${FNAME}",user.getFullName());
-				line=line.replace("${PWD}",user.getUserPwd());
-				line=line.replace("${EMAIL}",user.getUserEmail());
+				line=line.replace(AppConstants.FNAME,user.getFullName());
+				line=line.replace(AppConstants.PWD,user.getUserPwd());
+				line=line.replace(AppConstants.EMAIL,user.getUserEmail());
 				
 				sb.append(line);
 				});

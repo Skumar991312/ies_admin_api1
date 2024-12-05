@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import ch.qos.logback.core.joran.util.beans.BeanUtil;
 import in.skumar.bindings.UnlockAccForm;
 import in.skumar.bindings.UserAccForm;
+import in.skumar.constants.AppConstants;
 import in.skumar.entity.UserEntity;
 import in.skumar.repo.UserRepo;
 import in.skumar.utils.EmailUtils;
@@ -40,13 +41,13 @@ public class AccountServicesImpl implements AccountServices {
 		   
 		   //set Account status
 		   
-		   entity.setAccountStatus("LOCKED");
-		   entity.setActiveSw("Y");
+		   entity.setAccountStatus(AppConstants.LOCKED);
+		   entity.setActiveSw(AppConstants.MESSAGE);
 		   userRepo.save(entity);
 		   
 		   //Send Email
-		   String subject="User Registration";
-		   String body=readEmailBody("REG_EMAIL_BODY.txt",entity);	   
+		   String subject=AppConstants.USER_REGITRATIONS;
+		   String body=readEmailBody(AppConstants.REG_EMAIL_BODY,entity);	   
 		 return emailUtils.senEmail(subject, body, accForm.getEmail());	
 	}
 	
@@ -57,9 +58,9 @@ public class AccountServicesImpl implements AccountServices {
 		try(Stream<String> lines=Files.lines(Paths.get(filename))){
 			lines.forEach(line-> {
 				
-				line=line.replace("${FNAME}",user.getFullName());
-				line=line.replace("${TEMP_PWD}",user.getUserPwd());
-				line=line.replace("${EMAIL}",user.getUserEmail());
+				line=line.replace(AppConstants.FNAME,user.getFullName());
+				line=line.replace(AppConstants.TEMP_PWD,user.getUserPwd());
+				line=line.replace(AppConstants.EMAIL,user.getUserEmail());
 				
 				sb.append(line);
 				});
@@ -111,10 +112,10 @@ public class AccountServicesImpl implements AccountServices {
 		
 		   if(cnt>0) {
 			
-			return "Status Changed";
+			return AppConstants.STATUS_CHANGES;
 		}
 	
-			return "Failed Changed";
+			return AppConstants.FAILED_CHANGES;
 	}
 
 	@Override
@@ -123,18 +124,18 @@ public class AccountServicesImpl implements AccountServices {
 		UserEntity entity=userRepo.findByEmail(unlockAccForm.getEmail());
 		
 		entity.setUserPwd(unlockAccForm.getNewPwd());
-		entity.setAccountStatus("UNLOCKED");
+		entity.setAccountStatus(AppConstants.ACCOUNT_STATUS);
 		userRepo.save(entity);
 		
-		return "Account Unlocked";
+		return AppConstants.ACCOUNT_UNLOCK;
 	}
 	
 	private String generatePwd() {
 
 	    // create a string of uppercase and lowercase characters and numbers
-	    String upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	    String lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
-	    String numbers = "0123456789";
+	    String upperAlphabet = AppConstants.UPPER_ALPHABAT;
+	    String lowerAlphabet = AppConstants.LOWER_ALPHABET;
+	    String numbers =AppConstants.NUMBER;
 
 	    // combine all strings
 	    String alphaNumeric = upperAlphabet + lowerAlphabet + numbers;
